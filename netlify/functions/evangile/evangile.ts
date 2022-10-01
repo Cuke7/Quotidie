@@ -19,7 +19,7 @@ export const handler: Handler = async (event, context) => {
   return {
     statusCode: 200,
     body: JSON.stringify({
-      title,
+      title: title.substring(11),
       evangile
     }),
   }
