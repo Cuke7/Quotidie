@@ -5,10 +5,10 @@ import { VitePWA } from 'vite-plugin-pwa'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [vue(), VitePWA({
-    devOptions: {
-      enabled: true
-      /* other options */
-    },
+    // devOptions: {
+    //   enabled: true
+    //   /* other options */
+    // },
     registerType: 'autoUpdate', manifest: {
       name: "Quotidie",
       lang: "fr",
