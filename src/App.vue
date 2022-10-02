@@ -17,8 +17,7 @@ import axios from "axios";
 
 const evangile = ref({ title: "", evangile: "" });
 const date = new Date();
-const options = { weekday: "long", year: "numeric", month: "long", day: "2-digit" };
-const dateDisplay = ref(date.toLocaleDateString("fr-FR", options));
+const dateDisplay = ref(date.toLocaleDateString("fr-FR", { weekday: "long", year: "numeric", month: "long", day: "2-digit" }));
 
 onMounted(async () => {
     const { data } = await axios.get("/.netlify/functions/evangile");
