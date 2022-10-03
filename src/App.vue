@@ -34,20 +34,27 @@ import axios from "axios";
 import { initializeApp } from "firebase/app";
 import { BellIcon, BellSlashIcon } from "@heroicons/vue/24/solid";
 import { GoogleAuthProvider, getAuth, signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
+import { getDatabase, ref as refdb, set } from "firebase/database";
+import { getMessaging, getToken } from "firebase/messaging";
 
 const notif = ref(false);
 
+const key = "BAxrYfTRHfXYumaEmMWoPAE1mZ0r0UpWTHEdeHqOtovLj7J14UPxxCBQMeygqv5QgrcQiA_QVqWtXLSvfhHgWO0";
+
 const firebaseConfig = {
-    apiKey: "AIzaSyDciTaq_4JN4uhy29PDTqCx36ukF6F290U",
-    authDomain: "quotidiev2.firebaseapp.com",
-    databaseURL: "https://quotidiev2-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "quotidiev2",
-    storageBucket: "quotidiev2.appspot.com",
-    messagingSenderId: "518768548588",
-    appId: "1:518768548588:web:ae8a64816d43a1eeab63c9",
+    apiKey: "AIzaSyDIKeZJez9AVZs_hIXMH_BcyBGGv8YeQGg",
+    authDomain: "quotidie-282b4.firebaseapp.com",
+    projectId: "quotidie-282b4",
+    storageBucket: "quotidie-282b4.appspot.com",
+    messagingSenderId: "885662934483",
+    appId: "1:885662934483:web:138cb04c10cde188c13b26",
+    databaseURL: "https://quotidie-282b4-default-rtdb.europe-west1.firebasedatabase.app/",
 };
 
 const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const messaging = getMessaging(app);
+
 const auth = getAuth();
 auth.languageCode = "fr";
 
@@ -62,36 +69,43 @@ onMounted(async () => {
 
 const provider = new GoogleAuthProvider();
 const user = ref<any>(null);
-watch(notif, (isChecked) => {
-    if (isChecked) {
-        if (!user.value) {
-            signInWithPopup(auth, provider)
-                .then((result) => {
-                    user.value = result.user;
-                    console.log("Registering for notifications!");
-                })
-                .catch((error) => {
-                    console.error("Error login in", error);
+watch(
+    notif,
+    async (isChecked) => {
+        if (isChecked) {
+            if (!user.value) {
+                const result:any = await signInWithPopup(auth, provider).catch((err) => console.error(err));
+                user.value = result.user;
+                console.log("Registering for notifications!");
+                const token = await getToken(messaging, { vapidKey: key });
+                await set(refdb(db, "users/" + user.value.uid), {
+                    name: user.value.displayName,
+                    isSubscribed: true,
+                    key: token,
                 });
-        }
-    } else {
-        signOut(auth)
-            .then(() => {
-                user.value = null;
-            })
-            .catch((error) => {
-                console.error("Error login in", error);
+            }
+        } else {
+            await set(refdb(db, "users/" + user.value.uid), {
+                name: user.value.displayName,
+                isSubscribed: false,
+                key: "",
             });
+            console.log("Logging out...");
+            signOut(auth);
+        }
+    },
+    {
+        flush: "post",
     }
-});
+);
 
 onAuthStateChanged(auth, (user2) => {
     if (user2) {
         user.value = user2;
         notif.value = true;
-        console.log("Signed in!");
-        // ...
+        console.log("Signed in!", user.value);
     } else {
+        // writeUserData(false, user.value.uid);
         user.value = null;
         notif.value = false;
         console.log("Signed out!");
