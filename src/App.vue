@@ -1,6 +1,6 @@
 <template>
     <div class="h-screen flex sm:justify-center items-center flex-col px-4 pb-4 sm:px-0">
-        <div class="text-6xl text-red-800 font-bold font-mono mt-8">Quotidie</div>
+        <div class="text-6xl text-red-800 font-bold font-mono mt-16">Quotidie</div>
         <div class="absolute top-8 right-8">
             <label for="toogleA" class="flex items-center cursor-pointer">
                 <!-- toggle -->
