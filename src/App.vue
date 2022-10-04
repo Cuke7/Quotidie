@@ -1,7 +1,7 @@
 <template>
-    <div class="h-screen flex sm:justify-center items-center flex-col px-4 pb-4 sm:px-0">
-        <div class="text-6xl text-red-800 font-bold font-mono mt-16">Quotidie</div>
-        <div class="absolute top-8 right-8">
+    <div class="h-screen flex  items-center flex-col px-4 pb-4 sm:px-0">
+        <div class="text-6xl text-red-800 font-bold font-mono mt-14 sm:mt-16">Quotidie</div>
+        <div class="absolute top-8 right-8 sm:hidden">
             <label for="toogleA" class="flex items-center cursor-pointer">
                 <!-- toggle -->
                 <div class="relative">
@@ -17,8 +17,7 @@
                 </div>
             </label>
         </div>
-
-        <div class="my-4 font-mono italic">
+        <div class="my-4 font-mono italic sm:mb-12">
             {{ dateDisplay }}
         </div>
         <div class="font-sans font-bold px-8 text-lg w-full sm:w-1/2 mb-8">{{ evangile.title }}</div>
