@@ -15,7 +15,7 @@ export default defineConfig({
       theme_color: "#e5ded6",
       background_color: "#e5ded6",
       short_name: "Quotidie",
-      display: "standalone",
+      display: "fullscreen",
       icons: [
         {
           src: 'quotidieIcon.png',
