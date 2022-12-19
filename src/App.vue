@@ -21,9 +21,7 @@
             {{ dateDisplay }}
         </div>
         <div class="font-sans font-bold px-8 text-lg w-full sm:w-1/2 mb-8">{{ evangile.title }}</div>
-        <div class="w-full sm:w-1/2 px-8 pb-8" v-html="evangile.evangile">
-            <div ></div>
-        </div>
+        <div class="w-full sm:w-1/2 px-8 pb-8" v-html="evangile.evangile" />
     </div>
 </template>
 
